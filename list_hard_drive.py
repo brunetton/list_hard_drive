@@ -22,5 +22,7 @@ for folder, subs, files in os.walk(root_dir, topdown=True, onerror=None, followl
         continue
     for filepath in files:
         file = Path(Path(folder) / filepath)
+        if file.is_symlink():
+            continue
         size_str = file.stat().st_size if args["--raw-size"] else humanize.naturalsize(file.stat().st_size)
         print("{} \t {}".format(str(file.relative_to(root_dir)), size_str))
